@@ -1,6 +1,6 @@
 // Libraries
 
-const dotenv = require('dotenv');
+const dotenv = require('dotenv')
 
 /**
  * @overview Represents the helper constants.
@@ -8,19 +8,19 @@ const dotenv = require('dotenv');
 
 // Configuration
 
-dotenv.config();
+dotenv.config()
 
 // Constants
 
-const FILE_SYSTEM_SEPARATOR = process.env.FILE_SYSTEM_SEPARATOR;
-const TEMP_FOLDER_NAME = 'TEMP';
-const CODEQL_FOLDER_NAME_SUFFIX = '-codeql';
-const QUERY_FOLDER_NAME = 'query';
-const RESULT_FOLDER_NAME = 'result';
-const RESULT_FILE_NAME = 'result.csv';
-const LANGUAGES_SUPPORTED = ['javascript'];
+const FILE_SYSTEM_SEPARATOR = process.env.FILE_SYSTEM_SEPARATOR
+const TEMP_FOLDER_NAME = 'TEMP'
+const CODEQL_FOLDER_NAME_SUFFIX = '-codeql'
+const QUERY_FOLDER_NAME = 'query'
+const RESULT_FOLDER_NAME = 'result'
+const RESULT_FILE_NAME = 'result.csv'
+const LANGUAGES_SUPPORTED = ['javascript']
 
-const FILE_EXTENSIONS_SUPPORTED_FOR_NLP_ANALYSIS = ["js", "mjs", "cjs", "ts"];
+const FILE_EXTENSIONS_SUPPORTED_FOR_NLP_ANALYSIS = ["js", "mjs", "cjs", "ts"]
 const LANGUAGES_RESERVED_KEYWORDS = {
     ".js": {
         "language": [
@@ -66,7 +66,7 @@ const LANGUAGES_RESERVED_KEYWORDS = {
             "volatile", "while", "module", "requires", "exports", "opens", "provides", "uses", "to", "with"
         ],
     }
-};
+}
 
 module.exports = {
     FILE_SYSTEM_SEPARATOR,

@@ -2,14 +2,14 @@
  * @overview Represents the error constants.
  */
 
-const ANALYSIS_FAIL = 'Analysis fail';
-const DOWNLOAD_FAIL = 'Download fail';
-const CLEANING_FAIL = 'Cleaning fail';
-const BAD_FORMAT = 'Bad format';
-const BAD_OPERATION = 'Bad operation';
-const NOT_IMPLEMENTED = 'Not implemented';
+const ANALYSIS_FAIL = 'Analysis fail'
+const DOWNLOAD_FAIL = 'Download fail'
+const CLEANING_FAIL = 'Cleaning fail'
+const BAD_FORMAT = 'Bad format'
+const BAD_OPERATION = 'Bad operation'
+const NOT_IMPLEMENTED = 'Not implemented'
 
-const INPUT_INCORRECTLY_FORMATTED = 'Input incorrectly formatted.';
+const INPUT_INCORRECTLY_FORMATTED = 'Input incorrectly formatted.'
 
 module.exports = {
     ANALYSIS_FAIL,

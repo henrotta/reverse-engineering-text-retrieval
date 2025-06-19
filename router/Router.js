@@ -1,14 +1,15 @@
 // Imports
 
-const express = require('express');
-const Controller = require('../controller/Controller.controller.js');
-const BadFormat = require('../error/BadFormat.error.js');
-const DownloadFail = require('../error/DownloadFail.error.js');
-const AnalysisFail = require('../error/AnalysisFail.error.js');
-const CleaningFail = require('../error/CleaningFail.error.js');
-const {DOWNLOAD_FAIL, INPUT_INCORRECTLY_FORMATTED} = require('../error/Constant.error');
-const {FILE_SYSTEM_SEPARATOR} = require("../helper/Constant.helper");
-const multer = require('multer');
+const express = require('express')
+const Controller = require('../controller/Controller.controller.js')
+const BadFormat = require('../error/BadFormat.error.js')
+const DownloadFail = require('../error/DownloadFail.error.js')
+const AnalysisFail = require('../error/AnalysisFail.error.js')
+const CleaningFail = require('../error/CleaningFail.error.js')
+const { DOWNLOAD_FAIL, INPUT_INCORRECTLY_FORMATTED } = require('../error/Constant.error')
+const { FILE_SYSTEM_SEPARATOR } = require('../helper/Constant.helper')
+const multer = require('multer')
+const path = require('path')
 const {readFileSync} = require("fs");
 
 // Configuration
@@ -20,19 +21,22 @@ const controller = new Controller();
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, process.cwd() + FILE_SYSTEM_SEPARATOR + 'TEMP' + FILE_SYSTEM_SEPARATOR);
+            cb(null, process.cwd() + FILE_SYSTEM_SEPARATOR + 'TEMP' + FILE_SYSTEM_SEPARATOR)
         },
         filename: (req, file, cb) => {
-            cb(null, file.originalname);
+            const timestamp = Date.now()
+            const ext = path.extname(file.originalname)
+            const uniqueFileName = `${timestamp}${ext}`
+            cb(null, uniqueFileName)
         }
     })
-});
+})
 
 // Helper function for handling file uploads and responses
 
 const handleFileUploadAndResponse = (fileMethod) => (request, response) => {
     if (request.files.file) {
-        const {path: zipTempFilePath, originalname: originalFileName} = request.files.file[0];
+        const {path: zipTempFilePath} = request.files.file[0];
         const db_details = request.files.concepts ? JSON.parse(readFileSync(request.files.concepts[0].path, 'utf-8')) : undefined;
         fileMethod.call(controller, zipTempFilePath, request.params.language, db_details)
             .then((result) => {
@@ -74,4 +78,4 @@ router.post('/static/nlp/language/:language/repository/zip', upload.fields([
 ]), handleFileUploadAndResponse(controller.analyzeStaticallyNLP));
 
 
-module.exports = router;
+module.exports = router
