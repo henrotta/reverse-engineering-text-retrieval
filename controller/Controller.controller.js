@@ -149,68 +149,71 @@ class Controller {
     })
   }
 
-    /**
-     * Analyzes statically with text retrieval and NLP techniques
-     * @param zipTempFilePath {String} A zip temp file path.
-     * @param language {String} The targeted language for the static analysis.
-     * @param dbDetails {Object} An object mapping repository names to arrays of database-related information.
-     * @returns {Promise} A promise for the analysis.
-     */
-    analyzeStaticallyNLP(zipTempFilePath, language, dbDetails) {
-        return new Promise((resolve, reject) => {
-            if (
-                zipTempFilePath !== undefined &&
-                zipTempFilePath !== null &&
-                zipTempFilePath.length !== 0
-            ) {
-                const zipTempFile = zipTempFilePath.split(FILE_SYSTEM_SEPARATOR).pop()
-                const destinationDirectory = crypto.randomUUID()
-                fs.mkdirSync(
-                    `${process.cwd()}${FILE_SYSTEM_SEPARATOR}${TEMP_FOLDER_NAME}${FILE_SYSTEM_SEPARATOR}${destinationDirectory}${FILE_SYSTEM_SEPARATOR}`
-                ) // Unique directory for distinguishing the requests from different users.
-                if (
-                    language !== undefined &&
-                    language !== null &&
-                    language.length !== 0 &&
-                    LANGUAGES_SUPPORTED.includes(language)
-                ) {
-                    try {
-                        // 1. Acquisition
-                        this.downloaderZip.downloadByElement(zipTempFilePath).then((downloadedRepositoryList) => {
-
-                            // 2. Extraction
-                            this.staticAnalyzerNLP.extractByList(downloadedRepositoryList, language, dbDetails).then((result) => {
-
-                                // 3. Presentation
-                                resolve(result)
-                                this.clean(destinationDirectory)
-                                this.clean(zipTempFile)
-
-                            }).catch(error => {
-                                reject(error)
-                                this.clean(destinationDirectory)
-                                this.clean(zipTempFile)
-                            });
-                        }).catch(error => {
-                            reject(error)
-                            this.clean(destinationDirectory)
-                            this.clean(zipTempFile)
-                        });
-                    } catch (error) {
-                        reject(error)
-                        this.clean(destinationDirectory)
-                        this.clean(zipTempFile)
-                    }
-                } else {
-                    reject(new BadFormat(INPUT_INCORRECTLY_FORMATTED))
+  /**
+   * Analyzes statically with text retrieval and NLP techniques
+   * @param zipTempFilePath {String} A zip temp file path.
+   * @param language {String} The targeted language for the static analysis.
+   * @param dbDetails {Object} An object mapping repository names to arrays of database-related information.
+   * @returns {Promise} A promise for the analysis.
+   */
+  analyzeStaticallyNLP(zipTempFilePath, language, dbDetails) {
+    return new Promise((resolve, reject) => {
+      if (
+        zipTempFilePath !== undefined &&
+        zipTempFilePath !== null &&
+        zipTempFilePath.length !== 0
+      ) {
+        const zipTempFile = zipTempFilePath.split(FILE_SYSTEM_SEPARATOR).pop()
+        const destinationDirectory = crypto.randomUUID()
+        fs.mkdirSync(
+          `${process.cwd()}${FILE_SYSTEM_SEPARATOR}${TEMP_FOLDER_NAME}${FILE_SYSTEM_SEPARATOR}${destinationDirectory}${FILE_SYSTEM_SEPARATOR}`
+        ) // Unique directory for distinguishing the requests from different users.
+        if (
+          language !== undefined &&
+          language !== null &&
+          language.length !== 0 &&
+          LANGUAGES_SUPPORTED.includes(language)
+        ) {
+          try {
+            // 1. Acquisition
+            this.downloaderZip
+              .downloadByElement(zipTempFilePath)
+              .then((downloadedRepositoryList) => {
+                // 2. Extraction
+                this.staticAnalyzerNLP
+                  .extractByList(downloadedRepositoryList, language, dbDetails)
+                  .then((result) => {
+                    // 3. Presentation
+                    resolve(result)
                     this.clean(destinationDirectory)
                     this.clean(zipTempFile)
-                }
-            } else {
-                reject(new BadFormat(INPUT_INCORRECTLY_FORMATTED))
-            }
-        })
-    }
+                  })
+                  .catch((error) => {
+                    reject(error)
+                    this.clean(destinationDirectory)
+                    this.clean(zipTempFile)
+                  })
+              })
+              .catch((error) => {
+                reject(error)
+                this.clean(destinationDirectory)
+                this.clean(zipTempFile)
+              })
+          } catch (error) {
+            reject(error)
+            this.clean(destinationDirectory)
+            this.clean(zipTempFile)
+          }
+        } else {
+          reject(new BadFormat(INPUT_INCORRECTLY_FORMATTED))
+          this.clean(destinationDirectory)
+          this.clean(zipTempFile)
+        }
+      } else {
+        reject(new BadFormat(INPUT_INCORRECTLY_FORMATTED))
+      }
+    })
+  }
 }
 
 module.exports = Controller

@@ -109,12 +109,12 @@ Here is a summary of languages and technologies currently supported:
 #### Implementation status
 
 | Language              | Technology | Implementation status |
-|-----------------------|------------|-----------------------|
+| --------------------- | ---------- | --------------------- |
 | JavaScript/TypeScript | Any        | 🌕                    |
 
 #### How to?
 
-**__INPUT__**
+****INPUT****
 
 Invoke the static analysis by using
 the [POST /static/nlp/language/:language/repository/zip](http://locahost:3000/static/language/:language/repository/zip) root
@@ -136,7 +136,7 @@ This input file must follow the structure below:
       "data_concepts": [
         <list of domain related concepts>
       ],
-      
+
       // Optional
       // List of concepts that the file should contain at list one element to be considered as data access related
       "anchor_points": [
@@ -147,6 +147,7 @@ This input file must follow the structure below:
 ```
 
 Here is an example of such file:
+
 ```json
 {
   "cinema-microservice-master": {
@@ -182,9 +183,7 @@ Here is an example of such file:
   }
 ```
 
-
-
-**__OUTPUT__**
+****OUTPUT****
 
 The same as in Static analysis by Heuristics.
 
